@@ -1,5 +1,7 @@
 ## Set up
 
+![SQL](/LightBnB.drawio.png)
+
 ## psql
 
 - `psql`
@@ -19,5 +21,6 @@
 
 ## import data
 
+- before u delete all sample data
 - In terminal at your LightBnB folder `wget http://bit.ly/2YNEENF -O seeds/02_seeds.sql`
 - import psql `\i seeds/02_seeds.sql`
