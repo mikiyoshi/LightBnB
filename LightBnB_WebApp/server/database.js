@@ -204,9 +204,52 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function (property) {
-  const propertyId = Object.keys(properties).length + 1;
-  property.id = propertyId;
-  properties[propertyId] = property;
-  return Promise.resolve(property);
+  // const propertyId = Object.keys(properties).length + 1;
+  // property.id = propertyId;
+  // properties[propertyId] = property;
+  // return Promise.resolve(property);
+  const queryParams = [];
+  // Property
+  const propertyNames = [
+    'owner_id',
+    'title',
+    'description',
+    'thumbnail_photo_url',
+    'cover_photo_url',
+    'cost_per_night',
+    'street',
+    'city',
+    'province',
+    'post_code',
+    'country',
+    'parking_spaces',
+    `number_of_bathrooms`,
+    `number_of_bedrooms`,
+    `active`,
+  ];
+  let queryString = `INSERT INTO properties (`;
+  for (propertyName of propertyNames) {
+    queryString += `${propertyName},`;
+  }
+  queryString = queryString.slice(0, -1);
+  queryString += `)
+  VALUES (`;
+
+  for (propertyName of propertyNames) {
+    if (propertyName === 'active') {
+      /** Active case */
+      queryParams.push(0);
+    } else {
+      queryParams.push(property[propertyName]);
+    }
+    queryString += `$${queryParams.length},`;
+  }
+
+  queryString = queryString.slice(0, -1);
+  queryString += `)
+  RETURNING *;`;
+
+  console.log(queryParams, queryString);
+  return pool.query(queryString, queryParams).then((res) => res.rows);
 };
 exports.addProperty = addProperty;
