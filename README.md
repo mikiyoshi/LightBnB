@@ -1,5 +1,7 @@
 ## Set up
 
+### DATABASE lightbnb
+
 ![SQL](/LightBnB.drawio.png)
 
 ## psql
